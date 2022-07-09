@@ -1,28 +1,33 @@
-﻿using LinkedList;
+﻿using Paranthesis;
+using BalancedEqn;
+using System.Collections.Generic;
 Console.WriteLine("Hello, welcome to data structure problems");
-Console.WriteLine("Enter a number of numbers you want to enter");
-int l=Convert.ToInt32(Console.ReadLine());
-int[] ar=new int [l];
-for(int i = 0; i < l; i++)
+Console.WriteLine("Enter an equation");
+String equation=Console.ReadLine();
+char[] ar=equation.ToCharArray();
+Stackk<char> bracket=new Stackk<char>();
+int flag = 0;                                            //for checking the last condition if the stack has become empty at last or just in the middle  
+for(int i=0; i<ar.Length; i++)
 {
-    Console.WriteLine("Enter element " + (i + 1));
-    ar[i] = Convert.ToInt32(Console.ReadLine());
+    if (ar[i] == '('|| ar[i] == '{'|| ar[i] == '[')         //pushing 
+    {
+        bracket.push(equation[i]);
+    }
+    else if (ar[i] == ')'|| ar[i] == '}'|| ar[i] == ']')            //poping
+    {
+        ///checking if the stack becomes empty in between
+        if (bracket.empty())                
+        {
+            Console.WriteLine("Stack is empty");
+            flag++;
+            break;
+        }
+            bracket.pop();
+    }
+    else
+        continue;
 }
-Array.Sort(ar);
-linked_list<int> list = new linked_list<int>();
-list.create(ar[0]);
-for (int i = 1; i <ar.Length; i++)
-{
-    list.append(ar[i]);
-}
-Console.WriteLine("Enter the number you want to search");
-int number = Convert.ToInt16(Console.ReadLine());
-if(list.search(number)==0)                                            //returns 0 if element is not present
-{
-    list.append(number);
-}
+if (bracket.empty()&&flag==0)
+    Console.WriteLine("Balanced equation");
 else
-{
-    list.delete(number, list.search(number));
-}
-list.print();
+    Console.WriteLine("Unbalanced equation");
