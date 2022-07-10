@@ -1,20 +1,26 @@
-﻿using DataStructure;
+﻿using linked;
+using DataStructure;
 using System.Collections.Generic;
-Console.WriteLine("Hello, Welcome to the Palindrome Checker");
-Console.WriteLine("Enter a word");
-string word=Console.ReadLine();
-char[] ch = word.ToCharArray();
-PalindromeChecker<char> counter = new PalindromeChecker<char>();
-String reverse = "";
-for (int x = word.Length-1; x >=0; x--)                 //enquing every letter of the string from the back
+Console.WriteLine("Hello, Welcome to the Number in a slot problem");
+NumberInSlot<int> numbers = new NumberInSlot<int>();
+for (int i = 0; i < 10; i++)
 {
-    counter.Enqueue(ch[x]);
+    Console.WriteLine("Enter number "+(i+1));
+    int num = Convert.ToInt16(Console.ReadLine());
+    numbers.Insert(num);
 }
-for (int x=0;x<word.Length;x++)                     //dequeuing and storing every character in a string
+Console.WriteLine("Enter a number you want to search");
+int search=Convert.ToInt16(Console.ReadLine());
+long hashcode=search.GetHashCode();
+if(numbers.get(hashcode,search))
 {
-    reverse = reverse + counter.Dequeue();
+    numbers.remove(search,hashcode);
+    Console.WriteLine("Removed " + search);
 }
-if (word.CompareTo(reverse) == 0)
-    Console.WriteLine("Palindrome word");
 else
-    Console.WriteLine("Not a palindrome word");
+{
+    Console.WriteLine("Not found");
+    numbers.Insert(search);
+    Console.WriteLine("Added "+search);
+}
+numbers.DIsplay();
