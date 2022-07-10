@@ -7,77 +7,94 @@ using Paranthesis;
 
 namespace BalancedEqn
 {
-    internal class Stackk<gtype>where gtype : IComparable
+    public class CashCounter<gtype> 
     {
-        Node<gtype> top;
-        public Stackk()
+        long BankCash;
+        Node<gtype> rear;
+        Node<gtype> front;
+        public CashCounter(long BankCash)
         {
-            this.top = null;
+            this.BankCash = BankCash;
+            this.rear = null;
+            this.front = null;
         }
-        public void push(gtype pushNode)
+        public void Enqueue(gtype AddToQueue)         //for adding persons in the queue
         {
-            Node<gtype> node = new Node<gtype>(pushNode);
-            if (top == null)
+            Node<gtype> node = new Node<gtype>(AddToQueue);
+            if (front == null)
             {
-                node.next = null; ;
+                rear = node;
+                front = rear;
+                Console.WriteLine("Added the person " + rear.data + " to the queue");
             }
             else
             {
-                node.next = top;
+                rear.next = node;
+                rear = rear.next;
+                Console.WriteLine("Added the person " + rear.data + " to the queue");
             }
-            top = node;
-            Console.WriteLine("Pushed nodewith data " + node.data);
         }
-        public void pop()                   //single node is poped
+        public void Dequeue()                       //for removing nodes one by one from the queue
         {
-            Node<gtype> temp = top;
-            if (top != null)
+            if (rear == null && front == null)
             {
-                Console.WriteLine("Data of the poped node is " + temp.data);
-                top = temp.next;
-            }
-            else
-                Console.WriteLine("Stack is empty");
-        }
-        public void fullpop()                       //pop function till the statck is empty
-        {
-            while (top != null)
-            {
-                Node<gtype> temp = top;
-                Console.WriteLine("Data of the poped node is " + top.data);
-                top = temp.next;
-            }
-            Console.WriteLine("Stack is empty");
-        }
-        public void peek()                  //gives the top most node data without popping it
-        {
-            if (this.top != null)
-            {
-                Console.WriteLine("top element is " + top.data);
-            }
-            else
-                Console.WriteLine("Stack is empty");
-        }
-        public bool empty()                 //To check if the stackis empty
-        {
-            if (this.top == null)
-            {
-                //Console.WriteLine("Stack is empty");
-                return true;
+                Console.WriteLine("No one is left");
             }
             else
             {
-                return false;
-                Console.WriteLine("Stack is not empty");
+                Console.WriteLine("Choose 1- for withdrawing cash and 2- for depositing money");
+                int ch = Convert.ToInt16(Console.ReadLine());
+                if(ch ==1)
+                {
+                    Console.WriteLine("Enter how much money you want to withdraw");
+                    long transaction = Convert.ToInt64(Console.ReadLine());
+                    if (transaction <= BankCash)
+                    {
+                        BankCash = BankCash - transaction;
+                    }
+                    else
+                        Console.WriteLine("Inadequate money in the bank");
+                }
+                else if(ch==2)
+                {
+                    Console.WriteLine("Enter how much money you want to deposit");
+                    long transaction = Convert.ToInt32(Console.ReadLine());
+                }
+
+                Console.WriteLine("Taken out " + front.data + " from the que");
+                front = front.next;
             }
         }
-        public void print()
+        public void DequeueTotal()                       //for removing all the persons from the queue 
         {
-            Node<gtype> temp = top;
-            while (temp != null)
+            if (rear == null && front == null)
             {
-                Console.WriteLine(temp.data);
-                temp = temp.next;
+                Console.WriteLine("Queue is empty");
+            }
+            else
+            {
+                while (front != null)
+                {
+                    Console.WriteLine("Taken out " + front.data + " from the que");
+                    front = front.next;
+                }
+            }
+        }
+        public void display()                       //Displaying the node of the queue
+        {
+            if (rear == null && front == null)
+            {
+                Console.WriteLine("Queue is empty");
+            }
+            else
+            {
+                Node<gtype> temp = front;
+                while (temp != null)
+                {
+                    Console.WriteLine(temp.data);
+                    temp = temp.next;
+                }
+                Console.WriteLine("Cash left in the bank  = "+BankCash);
             }
         }
     }
