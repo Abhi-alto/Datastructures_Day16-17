@@ -1,16 +1,20 @@
-﻿using Paranthesis;
-using BalancedEqn;
+﻿using DataStructure;
 using System.Collections.Generic;
-Console.WriteLine("Hello, Welcome to the Cas Counter problem");
-Console.WriteLine("Enter total cash money in the bank");
-long CASH=Convert.ToInt64(Console.ReadLine());
-CashCounter<string> counter = new CashCounter<string>(CASH);
-//We will enque two people and then dequeue two people
-counter.Enqueue("Abhishek");
-counter.Enqueue("Raghav");
-counter.Enqueue("Shubham");
-counter.display();
-counter.Dequeue();
-counter.Dequeue();
-counter.Dequeue();
-counter.display();
+Console.WriteLine("Hello, Welcome to the Palindrome Checker");
+Console.WriteLine("Enter a word");
+string word=Console.ReadLine();
+char[] ch = word.ToCharArray();
+PalindromeChecker<char> counter = new PalindromeChecker<char>();
+String reverse = "";
+for (int x = word.Length-1; x >=0; x--)                 //enquing every letter of the string from the back
+{
+    counter.Enqueue(ch[x]);
+}
+for (int x=0;x<word.Length;x++)                     //dequeuing and storing every character in a string
+{
+    reverse = reverse + counter.Dequeue();
+}
+if (word.CompareTo(reverse) == 0)
+    Console.WriteLine("Palindrome word");
+else
+    Console.WriteLine("Not a palindrome word");
